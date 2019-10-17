@@ -14,7 +14,7 @@ def Pregnant_Crawling(html):
     index = 0
     for wk in weeks:
         img = wk.find('div',{'class':'img'}).find('a').find('img').get('src')
-        href = 'maeili.com'+wk.find('div',{'class':'img'}).find('a').get('href')
+        href = 'https://www.maeili.com'+wk.find('div',{'class':'img'}).find('a').get('href')
         category = wk.find('div',{'class':'box-info ha'}).find('p',{'class':'t1 c-blue'}).text
         title = wk.find('div',{'class':'box-info ha'}).find('strong').find('a').text.strip()
         content = wk.find('div',{'class':'box-info ha'}).find('div',{'class':'sub'}).find('p').text
@@ -49,30 +49,21 @@ def meals_Crawling(html):
     index = 0
     for meal in meals:
         img = meal.find('div',{'class':'img'}).find('a',{'class':'btn-video'}).find('img').get('src')
-        href = 'maeili.com'+meal.find('div',{'class':'img'}).find('a',{'class':'btn-video'}).get('href')
+        href = 'https://www.maeili.com'+meal.find('div',{'class':'img'}).find('a',{'class':'btn-video'}).get('href')
         category = meal.find('div',{'class':'box-info ha'}).find('p',{'class':'t1 c-blue'}).text
         title = meal.find('div',{'class':'box-info ha'}).find('strong').find('a').text.strip()
         content = meal.find('div',{'class':'box-info ha'}).find('div',{'class':'sub'}).find('p').text
-
-        # Detailreq = requests.get(href)
-        # Detailhtml = BS(Detailreq.text, 'html.parser')
-        # detail = Detailhtml.select('article.info_view_type1.type2')
+       
+        Detailreq = requests.get(href)
+        Detailhtml = BS(Detailreq.text, 'html.parser')
+        details = Detailhtml.select('div.video')
         
-        # header = detail.find('div',{'class':'tsub'}).find('p').find('span').text
-        # detail_content = detail.find('div',{'class':'line'}).find('p',{'class':'txt'}).text
-        # development =detail.find('div',{'class':'line'}).find('h1',{'class':'c-blue'}).text
-        # detail_development = detail.find('div',{'class':'line'}).find('div',{'class':'lst-num.blue'}).find('ul').find_all('li')
-        # dp_dict ={}
-        # dp_idx=0
-        # for dp in detail_development:
-        #     dp_num = dp.find('p').find('span',{'class':'num'}).text
-        #     dp_content = dp.find('p').text
-        #     dp_dict[dp_idx]={'dp_num':dp_num,'dp_content':dp_content}
-        #     dp_idx+=1
+        for detail in details:
 
-
-        temp_list.append([img, href, category, title, content])
-        temp_dict[index]={'img':img,'href':href,'category':category,'title':title,'content':content}
+            url = detail.find('iframe').get('src')
+            temp_dict[index]={'img':img,'href':href,'category':category,'title':title,'content':content,'url':url}
+        
+        # temp_list.append([img, href, category, title, content])
         index +=1
     return temp_list, temp_dict
 
@@ -111,5 +102,5 @@ def Pregnant_function(variable):
     toJson(Pregnant_dict,'Pregnant.json')
 
 if __name__ == '__main__':
-    meals_function('https://www.maeili.com/cms/contents/contentsList.do?cateCd1=8&cateCd2=5')
+    # meals_function('https://www.maeili.com/cms/contents/contentsList.do?cateCd1=8&cateCd2=5')
     Pregnant_function('https://www.maeili.com/cms/contents/contentsList.do?cateCd1=1&cateCd2=2&cateCd3=0&gubn=0')
