@@ -1,10 +1,10 @@
 import requests
 from bs4 import BeautifulSoup as BS
 import json
-from selenium import webdriver
+# from selenium import webdriver
 
-path = "C:\Users\multicampus\Desktop\new_crawling\chromedriver.exe"
-driver = webdriver.Chrome(path)
+# path = "C:\Users\multicampus\Desktop\new_crawling\chromedriver.exe"
+# driver = webdriver.Chrome(path)
 MealName = {'1':'EarlyMeal.json','2':'MidMeal.json','3':'LateMeal.json','4':'CompleteMeal.json','5':'BabyMeal.json'}
 
 def Pregnant_Crawling(html):
